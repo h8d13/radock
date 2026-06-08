@@ -13,6 +13,11 @@ REPO_ROOT=${REPO_ROOT:-$HERE}
 COMPOSE_DIR=${COMPOSE_DIR:-$REPO_ROOT}
 SVC=${SVC:-radicle}
 REPONAME=${REPONAME:-$(basename "$REPO_ROOT")}
+
+# optional repo selector; default is this repo's name. e.g. ./radctl -r foo sync status
+case "$1" in
+    -r|--repo) REPONAME=$2; shift 2 ;;
+esac
 WORKDIR="/root/.radicle/repos/$REPONAME"
 
 case "$1" in

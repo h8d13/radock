@@ -24,6 +24,8 @@ radctl sync status # passed to `rad` directly
 radctl git log # passed to `git`
 ```
 
+Or try `radctl --help` and `radctl git --help`
+
 ## multi-repo test:
 
 ```
@@ -33,5 +35,3 @@ mkdir -p rad-home/repos/testrepo && echo test > rad-home/repos/testrepo/README.m
 ./radctl -r testrepo git commit -m 'init'
 ./radctl -r testrepo init --name testrepo --default-branch master
 ```
-
-Or try `radctl --help` and `radctl git --help`

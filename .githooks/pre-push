@@ -1,0 +1,3 @@
+#!/bin/sh
+# pre-push wrapper: mirror to the radicle docker workspace (best-effort).
+exec "$(git rev-parse --show-toplevel)/radicle-sync.sh"

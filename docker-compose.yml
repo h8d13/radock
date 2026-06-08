@@ -1,0 +1,15 @@
+services:
+  radicle:
+    build: .
+    image: radock:1.9.1
+    container_name: radicle
+    restart: unless-stopped
+    environment:
+      RAD_ALIAS: "${RAD_ALIAS:-radock}"
+      # empty = unencrypted key (fine for a headless seed). set a value to encrypt.
+      RAD_PASSPHRASE: "${RAD_PASSPHRASE:-}"
+      RAD_LISTEN: "0.0.0.0:8776"
+    ports:
+      - "8776:8776"
+    volumes:
+      - ./rad-home:/root/.radicle

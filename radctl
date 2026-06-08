@@ -25,4 +25,8 @@ case "$1" in
     *)   set -- rad "$@" ;;   # default verb is rad
 esac
 
-exec docker compose --project-directory "$COMPOSE_DIR" exec --workdir "$WORKDIR" "$SVC" "$@"
+# compose exec allocates a TTY by default; force -T when there's no terminal
+# (scripts, pipes) so the call doesn't hang. interactive shells keep the TTY.
+[ -t 0 ] || TFLAG=-T
+
+exec docker compose --project-directory "$COMPOSE_DIR" exec $TFLAG --workdir "$WORKDIR" "$SVC" "$@"

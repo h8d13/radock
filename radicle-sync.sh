@@ -27,17 +27,15 @@ fi
 
 # 1. copy local commits into the workspace clone (host-side, shared filesystem).
 #    needs receive.denyCurrentBranch=updateInstead on the workspace (installer sets it).
-if ! git -C "$REPO_ROOT" push --no-verify --quiet "$WORKSPACE" "+refs/heads/$BRANCH:refs/heads/$BRANCH"; then
+if ! git -C "$REPO_ROOT" push --quiet "$WORKSPACE" "+refs/heads/$BRANCH:refs/heads/$BRANCH"; then
     log "could not update workspace (dirty worktree?), skipping announce"
     exit 0
 fi
 
 # 2. announce from inside the container: git-remote-rad needs the node + RAD_HOME,
 #    which only exist there. -T = no TTY (hooks are non-interactive).
-#    --force: host root is the source of truth; radicle is a downstream mirror,
-#    so overwrite any drift on the rad side instead of jamming on non-fast-forward.
 if ! docker compose --project-directory "$COMPOSE_DIR" exec -T \
-        --workdir "/root/.radicle/repos/$REPONAME" "$SVC" git push --force rad "$BRANCH"; then
+        --workdir "/root/.radicle/repos/$REPONAME" "$SVC" git push rad "$BRANCH"; then
     log "rad push failed (node down?); provider push unaffected"
     exit 0
 fi

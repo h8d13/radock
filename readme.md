@@ -2,7 +2,7 @@
 
 ```
 echo 'RAD_ALIAS=john' > .env
-echo 'RAD_PASSPHRASE=pw123' > .env
+echo 'RAD_PASSPHRASE=pw123' >> .env
 
 docker compose build && docker compose up -d
 ```

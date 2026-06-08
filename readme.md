@@ -17,7 +17,14 @@ provider repo + rad repo
 
 =========================================================
 
-multi-repo test:
+## `radctl`
+
+```
+radctl sync status # passed to `rad` directly
+radctl git log # passed to `git`
+```
+
+## multi-repo test:
 
 ```
 mkdir -p rad-home/repos/testrepo && echo test > rad-home/repos/testrepo/README.md

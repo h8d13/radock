@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# thin wrapper mirrors sync logic but for any rad or git command
+# examples
+
+# ./radctl sync status
+# ./radctl git log
+
+set -e
+
+HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+REPO_ROOT=${REPO_ROOT:-$HERE}
+COMPOSE_DIR=${COMPOSE_DIR:-$REPO_ROOT}
+SVC=${SVC:-radicle}
+REPONAME=${REPONAME:-$(basename "$REPO_ROOT")}
+WORKDIR="/root/.radicle/repos/$REPONAME"
+
+case "$1" in
+    git) ;;                   # run git as given
+    *)   set -- rad "$@" ;;   # default verb is rad
+esac
+
+exec docker compose --project-directory "$COMPOSE_DIR" exec --workdir "$WORKDIR" "$SVC" "$@"
